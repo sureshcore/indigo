@@ -1,0 +1,1 @@
+* use xxHash as function hashing algorithm. XXH64 variant.
