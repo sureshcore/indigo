@@ -1,19 +1,30 @@
 CXX	= g++
-CXXFLAGS=-std=c++11 -Wall -pedantic -g
-LIBS=	../libindigoc.a
+INCLUDES= -I../libindigoc
+CXXFLAGS= -std=c++11 -Wall -pedantic -g $(INCLUDES)
+LIBS	= $(BINDIR)/libindigoc.a -llmdb -lcapnp -lkj
 
-TARGET  = igo
+BINDIR	?= ../bin
+OBJDIR	?= ../obj
+IGOOBJDIR= $(OBJDIR)/igo
+
+TARGET  = $(BINDIR)/igo
 SRCS    = main.cpp
-OBJS    := $(SRCS:%.cpp=%.o)
+OBJS    := $(SRCS:%.cpp=$(IGOOBJDIR)/%.o)
 
-all: $(TARGET)
+all: $(BINDIR) $(IGOOBJDIR) $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS) $(LIBS)
 
-$(OBJS): $(SRCS)
+$(IGOOBJDIR)/%.o: %.cpp
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
+$(BINDIR):
+	mkdir -p $(BINDIR)
+
+$(IGOOBJDIR):
+	mkdir -p $(IGOOBJDIR)
+
 clean:
-	rm -f $(TARGET) $(OBJS) *~
+	rm -f $(BINDIR)/$(TARGET) $(OBJS) *~
 
