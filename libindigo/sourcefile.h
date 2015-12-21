@@ -1,12 +1,17 @@
-#ifndef SOURCEFILE_H
-#define SOURCEFILE_H
+#ifndef INDIGO_SOURCEFILE_H
+#define INDIGO_SOURCEFILE_H
 
 
-class SourceFile
+namespace Indigo
 {
-public:
-    SourceFile();
-    ~SourceFile();
-};
 
-#endif // SOURCEFILE_H
+    class SourceFile
+    {
+    public:
+        SourceFile();
+        ~SourceFile();
+    };
+
+}
+
+#endif // INDIGO_SOURCEFILE_H

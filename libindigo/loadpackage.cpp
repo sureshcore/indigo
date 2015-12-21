@@ -3,7 +3,7 @@
 #include <boost/filesystem.hpp>
 
 #include "loadpackage.h"
-
+#include "packagedb.h"
 
 namespace Indigo
 {
@@ -20,7 +20,7 @@ namespace Indigo
     void LoadPackage::run()
     {
         std::cout << "running load module: " << packageName_ << std::endl;
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+        PackageDb pdb(packageName_, packageName_ + ".idb");
         std::cout << "package " << packageName_ << " loaded\n";
     }
 }

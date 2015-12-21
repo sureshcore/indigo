@@ -34,3 +34,7 @@ unix {
     target.path = /usr/lib
     INSTALLS += target
 }
+
+unix|win32: LIBS += -llmdb
+unix|win32: LIBS += -lcapnp
+unix|win32: LIBS += -lkj

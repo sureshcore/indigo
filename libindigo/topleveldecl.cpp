@@ -1,12 +1,17 @@
 #include "topleveldecl.h"
 
-TopLevelDecl::TopLevelDecl()
+namespace Indigo
 {
 
+
+    TopLevelDecl::TopLevelDecl()
+    {
+
+    }
+
+    TopLevelDecl::~TopLevelDecl()
+    {
+
+    }
+
 }
-
-TopLevelDecl::~TopLevelDecl()
-{
-
-}
-

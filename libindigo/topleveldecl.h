@@ -1,12 +1,17 @@
-#ifndef TOPLEVELDECL_H
-#define TOPLEVELDECL_H
+#ifndef INDIGO_TOPLEVELDECL_H
+#define INDIGO_TOPLEVELDECL_H
 
 
-class TopLevelDecl
+namespace Indigo
 {
-public:
-    TopLevelDecl();
-    ~TopLevelDecl();
-};
 
-#endif // TOPLEVELDECL_H
+    class TopLevelDecl
+    {
+    public:
+        TopLevelDecl();
+        ~TopLevelDecl();
+    };
+
+}
+
+#endif // INDIGO_TOPLEVELDECL_H

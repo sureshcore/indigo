@@ -1,12 +1,16 @@
 #include "sourcefile.h"
 
-SourceFile::SourceFile()
+namespace Indigo
 {
 
+    SourceFile::SourceFile()
+    {
+
+    }
+
+    SourceFile::~SourceFile()
+    {
+
+    }
+
 }
-
-SourceFile::~SourceFile()
-{
-
-}
-
