@@ -1,7 +1,7 @@
 CXX	= g++
 INCLUDES= -I../libindigoc
 CXXFLAGS= -std=c++11 -Wall -pedantic -g $(INCLUDES)
-LIBS	= $(BINDIR)/libindigoc.a -llmdb -lcapnp -lkj
+LIBS	= $(BINDIR)/libindigoc.a -llmdb -lflatbuffers
 
 BINDIR	?= ../bin
 OBJDIR	?= ../obj
@@ -26,5 +26,5 @@ $(IGOOBJDIR):
 	mkdir -p $(IGOOBJDIR)
 
 clean:
-	rm -f $(BINDIR)/$(TARGET) $(OBJS) *~
+	rm -f $(TARGET) $(OBJS) *~
 

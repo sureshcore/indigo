@@ -4,6 +4,7 @@
 
 #include "packagedb.h"
 #include "lmdb++.h"
+#include "pdbfmt_generated.h"
 
 namespace Indigo
 {

@@ -6,7 +6,7 @@
 
 QT       -= core gui
 
-TARGET = libindigo
+TARGET = libindigoc
 TEMPLATE = lib
 CONFIG += staticlib
 QMAKE_CXXFLAGS += -std=c++11
@@ -36,5 +36,3 @@ unix {
 }
 
 unix|win32: LIBS += -llmdb
-unix|win32: LIBS += -lcapnp
-unix|win32: LIBS += -lkj

@@ -1,0 +1,10 @@
+// "flatbuffers" schema for data blobs stored in the package database.
+
+namespace Indigo;
+
+table Package {
+	version: uint;
+}
+
+root_type Package;
+file_identifier "IgDb";
