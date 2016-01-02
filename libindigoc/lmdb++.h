@@ -94,7 +94,11 @@ public:
    * Returns the underlying LMDB error code.
    */
   virtual const char* what() const noexcept {
-    static thread_local char buffer[1024];
+    static 
+#if !defined(__APPLE__) && !defined(__WIN32__)
+    	thread_local 
+#endif
+	char buffer[1024];
     std::snprintf(buffer, sizeof(buffer),
       "%s: %s", origin(), ::mdb_strerror(code()));
     return buffer;

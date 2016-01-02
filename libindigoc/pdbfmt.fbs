@@ -2,9 +2,25 @@
 
 namespace Indigo;
 
-table Package {
-	version: uint;
+table ImportLoc {
+    packageName:   string;
+    path:          string;
 }
 
-root_type Package;
-file_identifier "IgDb";
+table PackageDbRec {
+    version:       uint;
+    importLocs:    [ImportLoc];
+}
+
+table FileDbRec {
+    sourceCode:    string;
+    topLevelDecls: [string];
+}
+
+table TldDbRec {
+    checksum:       ulong;
+
+}
+
+root_type PackageDbRec;
+file_identifier "igoD";

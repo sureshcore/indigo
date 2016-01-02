@@ -30,6 +30,9 @@ namespace Indigo
     public:
         PackageDb(const std::string &packageName, const std::string &packagePath);
 
+        // Open an existing database or create a new database.
+        bool open();
+
         // Packages.
         bool getPackage(PackageRecord &pr);
         bool putPackage(PackageRecord &pr);

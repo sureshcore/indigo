@@ -1,7 +1,7 @@
 CXX	= g++
 INCLUDES= -I../libindigoc
 CXXFLAGS= -std=c++11 -Wall -pedantic -g $(INCLUDES)
-LIBS	= $(BINDIR)/libindigoc.a -llmdb -lflatbuffers
+LIBS	= $(BINDIR)/libindigoc.a -L/usr/local/lib -llmdb -lflatbuffers -lboost_filesystem -lboost_system
 
 BINDIR	?= ../bin
 OBJDIR	?= ../obj

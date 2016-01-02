@@ -10,9 +10,15 @@ TARGET  =  $(BINDIR)/libindigoc.a
 SRCS    =  indigo.cpp package.cpp pass.cpp sourcefile.cpp loadpackage.cpp \
 	   packagedb.cpp scheduler.cpp topleveldecl.cpp
 OBJS	:= $(SRCS:%.cpp=$(ICOBJDIR)/%.o)
-DEFSRCS	=  pdbfmt.fbs
-GENHDRS	:= $(DEFSRCS:%.fbs=$(ICGENDIR)/%_generated.h)
-INCLUDES=  -I$(ICGENDIR)
+DEFSRC	=  pdbfmt.fbs
+GENDEFHDR= pdbfmt_generated.h
+LEXSRC	=  igolexer.l
+GENLEXSRC= igolexer.tab.cpp
+GENLEXHDR= igolexer.tab.h
+PARSRC	=  igoparser.y
+GENPARSRC= igoparser.tab.cpp
+GENPARHDR= igoparser.tab.h
+INCLUDES=  -I$(ICGENDIR) -I/usr/local/include
 
 all: $(BINDIR) $(ICOBJDIR) $(ICGENDIR) $(TARGET)
 
@@ -25,14 +31,20 @@ $(ICOBJDIR)/%.o: %.cpp
 $(BINDIR) $(ICOBJDIR) $(ICGENDIR):
 	mkdir -p $(BINDIR) $(ICOBJDIR) $(ICGENDIR)
 
-$(GENHDRS): $(DEFSRCS)
+$(GENDEFHDR): $(DEFSRC)
 	flatc --cpp -o $(ICGENDIR) $<
 
-depend: $(GENHDRS)
+$(GENLEXSRC) $(GENLEXHDR): $(LEXSRC)
+	flex --outfile=$(GENLEXSRC) --header-file=$(GENLEXHDR) $(LEXSRC)
+
+$(GENPARSRC) $(GENPARHDR): $(PARSRC)
+	bison --output=$(GENPARSRC) --defines=$(GENPARHDR) $(PARSRC)
+
+depend: $(GENDEFHDR)
 	$(CXX) -MM $(CXXFLAGS) $(INCLUDES) $(SRCS) | sed 's|[^.]\{1,\}\.o:|$(ICOBJDIR)/&|' >deps.mk
 
 clean:
-	rm -f $(TARGET) $(OBJS) $(GENHDRS) *~
+	rm -f $(TARGET) $(OBJS) $(GENDEFHDR) *~
 
 $(ICOBJDIR)/packagedb.o: $(ICGENDIR)/pdbfmt_generated.h
 

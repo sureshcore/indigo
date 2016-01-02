@@ -1,6 +1,4 @@
 #include <iostream>
-#include <capnp/message.h>
-#include <capnp/serialize-packed.h>
 
 #include "packagedb.h"
 #include "lmdb++.h"
@@ -13,22 +11,29 @@ namespace Indigo
         packageName_(packageName),
         packagePath_(packagePath)
     {
-        /* Create and open the LMDB environment: */
+    }
+
+
+    // Open an existing database.
+    bool PackageDb::open()
+    {
+        // Create and open the LMDB environment.
         auto env = lmdb::env::create();
         env.set_mapsize(100UL * 1024UL * 1024UL); /* 100 MB */
 
         try {
-            env.open(packagePath.c_str());
+            //env.open(packagePath.c_str());
         }
         catch (lmdb::error &err)
         {
             // Got an error.
             std::cout << "err=" << err.code() << std::endl;
+            return false;
         }
 
         std::cout << "opened DB successfully\n";
+        return true;
     }
-
 
 
     // Packages.

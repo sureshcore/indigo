@@ -10,7 +10,7 @@ TARGET = libindigoc
 TEMPLATE = lib
 CONFIG += staticlib
 QMAKE_CXXFLAGS += -std=c++11
-INCLUDEPATH += /usr/include /usr/include/c++/4.8
+INCLUDEPATH += /usr/include /usr/include/c++/4.8 /home/zik/obj/libindigoc_gen
 
 SOURCES += indigo.cpp \
     scheduler.cpp \
@@ -36,3 +36,8 @@ unix {
 }
 
 unix|win32: LIBS += -llmdb
+
+DISTFILES += \
+    pdbfmt.fbs \
+    igolexer.l \
+    igoparser.y

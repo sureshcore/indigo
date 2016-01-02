@@ -6,8 +6,6 @@ namespace Indigo
 
     class Pass
     {
-        int i;
-
     public:
         Pass();
         virtual ~Pass();
