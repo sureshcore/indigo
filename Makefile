@@ -1,7 +1,7 @@
 all: 
-	@( (cd libindigoc; make) && \
-	   (cd igo; make) && \
-	   (cd igor; make) )
+	@( (cd libindigoc; $(MAKE) ) && \
+	   (cd igo; $(MAKE) ) && \
+	   (cd igor; $(MAKE) ) )
 
 clean:
 	@( (cd libindigoc; make clean) && \

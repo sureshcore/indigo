@@ -7,8 +7,8 @@ ICOBJDIR=  $(OBJDIR)/libindigoc
 ICGENDIR=  $(OBJDIR)/libindigoc_gen
 
 TARGET  =  $(BINDIR)/libindigoc.a
-SRCS    =  indigo.cpp package.cpp pass.cpp sourcefile.cpp loadpackage.cpp \
-	   packagedb.cpp scheduler.cpp topleveldecl.cpp
+SRCS    =  indigo.cpp package.cpp pass.cpp sourcefile.cpp sourcecode.cpp \
+	   loadpackage.cpp packagedb.cpp scheduler.cpp topleveldecl.cpp
 OBJS	:= $(SRCS:%.cpp=$(ICOBJDIR)/%.o)
 DEFSRC	=  pdbfmt.fbs
 GENDEFHDR= pdbfmt_generated.h

@@ -13,7 +13,7 @@ OBJS    := $(SRCS:%.cpp=$(IGOOBJDIR)/%.o)
 
 all: $(BINDIR) $(IGOOBJDIR) $(TARGET)
 
-$(TARGET): $(OBJS)
+$(TARGET): $(OBJS) $(BINDIR)/libindigoc.a
 	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS) $(LIBS)
 
 $(IGOOBJDIR)/%.o: %.cpp

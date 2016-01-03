@@ -19,7 +19,8 @@ SOURCES += indigo.cpp \
     topleveldecl.cpp \
     package.cpp \
     packagedb.cpp \
-    loadpackage.cpp
+    loadpackage.cpp \
+    sourcecode.cpp
 
 HEADERS += indigo.h \
     scheduler.h \
@@ -29,7 +30,8 @@ HEADERS += indigo.h \
     package.h \
     loadpackage.h \
     packagedb.h \
-    lmdb++.h
+    lmdb++.h \
+    sourcecode.h
 unix {
     target.path = /usr/lib
     INSTALLS += target
