@@ -1,32 +1,38 @@
 CXX	=  g++
 CXXFLAGS=  -std=c++11 -Wall -pedantic -g
+CXXGENFLAGS=-std=c++11 -g
 
 BINDIR	?= ../bin
 OBJDIR	?= ../obj
-ICOBJDIR=  $(OBJDIR)/libindigoc
-ICGENDIR=  $(OBJDIR)/libindigoc_gen
+ICOBJDIR=  $(OBJDIR)/libindigoc/obj
+ICGENDIR=  $(OBJDIR)/libindigoc/gen
 
 TARGET  =  $(BINDIR)/libindigoc.a
 SRCS    =  indigo.cpp package.cpp pass.cpp sourcefile.cpp sourcecode.cpp \
 	   loadpackage.cpp packagedb.cpp scheduler.cpp topleveldecl.cpp
 OBJS	:= $(SRCS:%.cpp=$(ICOBJDIR)/%.o)
 DEFSRC	=  pdbfmt.fbs
-GENDEFHDR= pdbfmt_generated.h
+GENDEFHDR= $(ICGENDIR)/pdbfmt_generated.h
 LEXSRC	=  igolexer.l
-GENLEXSRC= igolexer.tab.cpp
-GENLEXHDR= igolexer.tab.h
+GENLEXSRC= $(ICGENDIR)/igolexer.tab.cpp
+GENLEXHDR= $(ICGENDIR)/igolexer.tab.h
 PARSRC	=  igoparser.y
-GENPARSRC= igoparser.tab.cpp
-GENPARHDR= igoparser.tab.h
+GENPARSRC= $(ICGENDIR)/igoparser.tab.cpp
+GENPARHDR= $(ICGENDIR)/igoparser.tab.h
+GENSRCS	 = $(GENLEXSRC) $(GENPARSRC)
+GENOBJS	:= $(GENSRCS:%.cpp=%.o)
 INCLUDES=  -I$(ICGENDIR) -I/usr/local/include
 
 all: $(BINDIR) $(ICOBJDIR) $(ICGENDIR) $(TARGET)
 
-$(TARGET): $(OBJS)
-	$(AR) r $(TARGET) $(OBJS)
+$(TARGET): $(OBJS) $(GENOBJS)
+	$(AR) r $(TARGET) $(OBJS) $(GENOBJS)
 
 $(ICOBJDIR)/%.o: %.cpp
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -o $@ -c $<
+
+$(ICGENDIR)/%.o: $(ICGENDIR)/%.cpp
+	$(CXX) $(CXXGENFLAGS) $(INCLUDES) -o $@ -c $<
 
 $(BINDIR) $(ICOBJDIR) $(ICGENDIR):
 	mkdir -p $(BINDIR) $(ICOBJDIR) $(ICGENDIR)
@@ -34,18 +40,17 @@ $(BINDIR) $(ICOBJDIR) $(ICGENDIR):
 $(GENDEFHDR): $(DEFSRC)
 	flatc --cpp -o $(ICGENDIR) $<
 
-$(GENLEXSRC) $(GENLEXHDR): $(LEXSRC)
+$(GENLEXSRC) $(GENLEXHDR): $(LEXSRC) $(GENPARHDR)
 	flex --outfile=$(GENLEXSRC) --header-file=$(GENLEXHDR) $(LEXSRC)
 
 $(GENPARSRC) $(GENPARHDR): $(PARSRC)
 	bison --output=$(GENPARSRC) --defines=$(GENPARHDR) $(PARSRC)
 
-depend: $(GENDEFHDR)
+depend: $(GENDEFHDR) $(GENLEXHDR) $(GENPARHDR)
 	$(CXX) -MM $(CXXFLAGS) $(INCLUDES) $(SRCS) | sed 's|[^.]\{1,\}\.o:|$(ICOBJDIR)/&|' >deps.mk
 
 clean:
-	rm -f $(TARGET) $(OBJS) $(GENDEFHDR) *~
+	rm -f $(TARGET) $(OBJS) $(GENOBJS) $(GENDEFHDR) $(GENLEXSRC) $(GENLEXHDR) $(GENPARSRC) $(GENPARHDR) *~
 
-$(ICOBJDIR)/packagedb.o: $(ICGENDIR)/pdbfmt_generated.h
 
 -include deps.mk
